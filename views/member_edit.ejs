@@ -9,38 +9,36 @@
 <form method="post" action="" id="the-form">
     <table cellpadding="11">
     <tr>
-        <td class="label">Name</td><td>: <input type="text" name="name" value="<%=data[0].member_username%>"></td>
+		<td class="label">UserName</td>
+		<td>: <input type="text" name="member_username" value="<%=data[0].member_username%>"></td>
      </tr>
     <tr>
-        <td class="label">Email</td><td>: <input type="text" name="email" value="<%=data[0].email%>"></td>
+		<td class="label">Name</td>
+		<td>: <input type="text" name="member_name" value="<%=data[0].member_name%>"></td>
      </tr>
       <tr>
-        <td class="label">Password</td><td>: <input type="password" name="member_password" value="<%=data[0].member_password%>"></td>
+		<td class="label">Password</td>
+		<td>: <input type="password" name="member_password" value="<%=data[0].member_password%>"></td>
      </tr>
      <tr>
         <td class="label"></td>
         <td>
-            &nbsp; <input type="button" value="Save" onClick="saveUser()">
+            &nbsp; <input type="button" value="Update Member Info" onClick="saveUser()">
         </td>
      </tr>
     </table>
 </form>
  <script>
-    
         function saveUser(){
-           
            $.ajax({
-            
             url:"/api/member_page/"+<%=data[0].member_id%>,
             type:"put",
             data:$("#the-form").serialize(),
             success:function(res){
-                
                 window.location.href = '/api/member_page';
                 return false;
             },
             error:function(xhr, status, error){
-                
                 console.log(xhr.responseText);
                 var err = '';
                 $.each(JSON.parse(xhr.responseText) , function(i, item) {

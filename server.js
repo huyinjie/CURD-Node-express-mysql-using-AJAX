@@ -79,7 +79,7 @@ curut.post(function(req,res,next){
 		member_username: req.body.member_username,
 		member_name: req.body.member_name,
 		member_password: req.body.member_password
-     };
+    };
 
     //inserting into mysql
     req.getConnection(function (err, conn){
@@ -143,10 +143,11 @@ curut2.get(function(req,res,next){
 curut2.put(function(req,res,next){
     var member_id = req.params.member_id;
 
-    //validation
-	req.assert('member_name','Name is required').notEmpty();
-    // req.assert('email','A valid email is required').isEmail();
-    req.assert('password','Enter a password 6 - 20').len(6,20);
+	//validation
+	req.assert('member_username', 'UserName is required').notEmpty();
+	req.assert('member_name', 'Name is required').notEmpty();
+	// req.assert('member_name','A valid email is required').isEmail();
+	req.assert('member_password', 'Enter a password 6 - 20').len(6, 20);
 
     var errors = req.validationErrors();
     if(errors){
@@ -154,12 +155,12 @@ curut2.put(function(req,res,next){
         return;
     }
 
-    //get data
-    var data = {
-		member_username:req.body.name,
-        // email:req.body.email,
+	//get data
+	var data = {
+		member_username: req.body.member_username,
+		member_name: req.body.member_name,
 		member_password: req.body.member_password
-     };
+	};
 
     //inserting into mysql
     req.getConnection(function (err, conn){
@@ -172,34 +173,23 @@ curut2.put(function(req,res,next){
                 return next("Mysql error, check your query");
            }
           res.sendStatus(200);
-
         });
-
      });
-
 });
 
 //delete data
 curut2.delete(function(req,res,next){
-
     var member_id = req.params.member_id;
-
      req.getConnection(function (err, conn) {
-
         if (err) return next("Cannot Connect");
-
         var query = conn.query("DELETE FROM member_info WHERE member_id = ? ",[member_id], function(err, rows){
-
-             if(err){
+            if(err){
                 console.log(err);
                 return next("Mysql error, check your query");
              }
-
-             res.sendStatus(200);
-
+            res.sendStatus(200);
         });
         //console.log(query.sql);
-
      });
 });
 
