@@ -1,4 +1,5 @@
 var express  = require('express'),
+	session = require('express-session');
     path     = require('path'),
     bodyParser = require('body-parser'),
     app = express(),
@@ -15,6 +16,13 @@ app.use(bodyParser.urlencoded({ extended: true })); //support x-www-form-urlenco
 app.use(bodyParser.json());
 app.use(expressValidator());
 
+app.use(session({
+	secret: 'secret',
+	resave: true,
+	saveUninitialized: true
+}));
+
+
 /*MySql connection*/
 var connection  = require('express-myconnection'),
     mysql = require('mysql');
@@ -23,8 +31,53 @@ app.use(
 	connection(mysql, databaseConfig,'request')
 );
 
-app.get('/',function(req,res){
-    res.send('Welcome');
+// Login Page
+// app.get('/',function(req,res){
+//     res.send('Welcome');
+// });
+app.get('/', function (request, response) {
+	response.sendFile(path.join(__dirname + '/views/login.html'));
+});
+
+var connection = mysql.createConnection(databaseConfig);
+
+app.post('/auth', function (request, response) {
+	var member_username = request.body.member_username;
+	var member_password = request.body.member_password;
+	if (member_username && member_password) {
+		connection.query('SELECT * FROM member_info WHERE member_username = ? AND member_password = ?', [member_username, member_password], function (error, results, fields) {
+			// console.log(results)
+			// console.log(results[0])
+			// console.log(results[0].member_password)
+			// console.log(results[0].member_type)
+			if (results.length > 0) {
+				request.session.loggedin = true;
+				request.session.member_username = member_username;
+				// res.render('home', { title: "Edit member_page", data: rows });
+				console.log("Successfully Logined")
+				if (results[0].member_type == 'guest') {
+					response.redirect('/home');
+				}
+			} else {
+				response.send('Incorrect Username and/or Password!');
+			}
+			response.end();
+		});
+	} else {
+		response.send('Please enter Username and Password!');
+		response.end();
+	}
+});
+
+app.get('/home', function (request, response) {
+	if (request.session.loggedin) {
+		// response.send('Welcome back, ' + request.session.member_username + '!');
+		// response.render('home', { title: "Edit member_page", data: rows });
+		response.render('home');
+	} else {
+		response.send('Please login to view this page!');
+	}
+	response.end();
 });
 
 
