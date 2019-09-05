@@ -56,7 +56,7 @@ curut.get(function(req,res,next){
                 return next("Mysql error, check your query");
             }
 			res.render('member_page', { title:"Member_Info Page", data:rows});
-         });
+        });
     });
 });
 
