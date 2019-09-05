@@ -190,7 +190,7 @@ curut2.delete(function(req,res,next){
 
         if (err) return next("Cannot Connect");
 
-        var query = conn.query("DELETE FROM member_info  WHERE member_id = ? ",[member_id], function(err, rows){
+        var query = conn.query("DELETE FROM member_info WHERE member_id = ? ",[member_id], function(err, rows){
 
              if(err){
                 console.log(err);
