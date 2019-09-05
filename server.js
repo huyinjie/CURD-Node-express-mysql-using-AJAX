@@ -2,7 +2,8 @@ var express  = require('express'),
     path     = require('path'),
     bodyParser = require('body-parser'),
     app = express(),
-    expressValidator = require('express-validator');
+	expressValidator = require('express-validator');
+	databaseConfig = require('./mysql.config'); 
 
 
 /*Set EJS template Engine*/
@@ -20,13 +21,7 @@ var connection  = require('express-myconnection'),
 
 app.use(
 
-    connection(mysql,{
-        host     : 'localhost',
-        user     : 'root',
-        password : '',
-        database : 'test',
-        debug    : false //set true if you wanna see debug logger
-    },'request')
+	connection(mysql, databaseConfig,'request')
 
 );
 
