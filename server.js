@@ -56,7 +56,7 @@ app.post('/auth', function (request, response) {
 				// res.render('home', { title: "Edit member_page", data: rows });
 				console.log("Successfully Logined")
 				if (results[0].member_type == 'guest') {
-					response.redirect('/home');
+					response.redirect('api/member_page');
 				}
 			} else {
 				response.send('Incorrect Username and/or Password!');
