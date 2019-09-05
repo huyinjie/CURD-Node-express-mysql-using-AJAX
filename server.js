@@ -51,12 +51,12 @@ var curut = router.route('/user');
 curut.get(function(req,res,next){
     req.getConnection(function(err,conn){
         if (err) return next("Cannot Connect");
-        var query = conn.query('SELECT * FROM member_info',function(err,rows){
+        var query = conn.query('SELECT * FROM member_info', function(err,rows){
             if(err){
                 console.log(err);
                 return next("Mysql error, check your query");
             }
-            res.render('user',{title:"RESTful Crud Example",data:rows});
+			res.render('user', { title:"Member_Info Page", data:rows});
          });
     });
 });
@@ -65,7 +65,7 @@ curut.get(function(req,res,next){
 curut.post(function(req,res,next){
     //validation
     req.assert('name','Name is required').notEmpty();
-    req.assert('email','A valid email is required').isEmail();
+    // req.assert('email','A valid email is required').isEmail();
     req.assert('password','Enter a password 6 - 20').len(6,20);
 
     var errors = req.validationErrors();
@@ -76,9 +76,9 @@ curut.post(function(req,res,next){
 
     //get data
     var data = {
-        name:req.body.name,
-        email:req.body.email,
-        password:req.body.password
+		member_username:req.body.name,
+        // email:req.body.email,
+		member_password:req.body.password
      };
 
     //inserting into mysql
@@ -92,23 +92,19 @@ curut.post(function(req,res,next){
                 console.log(err);
                 return next("Mysql error, check your query");
            }
-
           res.sendStatus(200);
-
         });
-
      });
-
 });
 
 
 //now for Single route (GET,DELETE,PUT)
-var curut2 = router.route('/user/:user_id');
+var curut2 = router.route('/user/:member_id');
 
 /*------------------------------------------------------
 route.all is extremely useful. you can use it to do
 stuffs for specific routes. for example you need to do
-a validation everytime route /api/user/:user_id it hit.
+a validation everytime route /api/user/:member_id it hit.
 
 remove curut2.all() if you dont want it
 ------------------------------------------------------*/
@@ -121,13 +117,13 @@ curut2.all(function(req,res,next){
 //get data to update
 curut2.get(function(req,res,next){
 
-    var user_id = req.params.user_id;
+    var member_id = req.params.member_id;
 
     req.getConnection(function(err,conn){
 
         if (err) return next("Cannot Connect");
 
-        var query = conn.query("SELECT * FROM member_info WHERE user_id = ? ",[user_id],function(err,rows){
+        var query = conn.query("SELECT * FROM member_info WHERE member_id = ? ",[member_id],function(err,rows){
 
             if(err){
                 console.log(err);
@@ -147,11 +143,11 @@ curut2.get(function(req,res,next){
 
 //update data
 curut2.put(function(req,res,next){
-    var user_id = req.params.user_id;
+    var member_id = req.params.member_id;
 
     //validation
     req.assert('name','Name is required').notEmpty();
-    req.assert('email','A valid email is required').isEmail();
+    // req.assert('email','A valid email is required').isEmail();
     req.assert('password','Enter a password 6 - 20').len(6,20);
 
     var errors = req.validationErrors();
@@ -162,9 +158,9 @@ curut2.put(function(req,res,next){
 
     //get data
     var data = {
-        name:req.body.name,
-        email:req.body.email,
-        password:req.body.password
+		member_username:req.body.name,
+        // email:req.body.email,
+		member_password:req.body.password
      };
 
     //inserting into mysql
@@ -172,13 +168,11 @@ curut2.put(function(req,res,next){
 
         if (err) return next("Cannot Connect");
 
-        var query = conn.query("UPDATE member_info set ? WHERE user_id = ? ",[data,user_id], function(err, rows){
-
+        var query = conn.query("UPDATE member_info set ? WHERE member_id = ? ",[data,member_id], function(err, rows){
            if(err){
                 console.log(err);
                 return next("Mysql error, check your query");
            }
-
           res.sendStatus(200);
 
         });
@@ -190,13 +184,13 @@ curut2.put(function(req,res,next){
 //delete data
 curut2.delete(function(req,res,next){
 
-    var user_id = req.params.user_id;
+    var member_id = req.params.member_id;
 
      req.getConnection(function (err, conn) {
 
         if (err) return next("Cannot Connect");
 
-        var query = conn.query("DELETE FROM member_info  WHERE user_id = ? ",[user_id], function(err, rows){
+        var query = conn.query("DELETE FROM member_info  WHERE member_id = ? ",[member_id], function(err, rows){
 
              if(err){
                 console.log(err);
@@ -216,7 +210,5 @@ app.use('/api', router);
 
 //start Server
 var server = app.listen(3000,function(){
-
    console.log("Listening to port %s",server.address().port);
-
 });
