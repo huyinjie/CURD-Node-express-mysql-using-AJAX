@@ -31,7 +31,6 @@ app.get('/',function(req,res){
 //RESTful route
 var router = express.Router();
 
-
 /*------------------------------------------------------
 *  This is router middleware,invoked everytime
 *  we hit url /api and anything after /api
@@ -47,7 +46,7 @@ router.use(function(req, res, next) {
 var curut = router.route('/user');
 
 
-//show the CRUD interface | GET
+//🎉show the CRUD interface | GET
 curut.get(function(req,res,next){
     req.getConnection(function(err,conn){
         if (err) return next("Cannot Connect");
@@ -61,10 +60,10 @@ curut.get(function(req,res,next){
     });
 });
 
-//post data to DB | POST
+//🎉Fast post data to DB | POST
 curut.post(function(req,res,next){
     //validation
-    req.assert('name','Name is required').notEmpty();
+    req.assert('name','UserName is required').notEmpty();
     // req.assert('email','A valid email is required').isEmail();
     req.assert('password','Enter a password 6 - 20').len(6,20);
 
