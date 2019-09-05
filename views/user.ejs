@@ -11,7 +11,7 @@
 	<div class="data-table">
 		<table border="1" cellpadding="7" cellspacing="7">
 			<tr>
-				<th width="50px">No</th>
+				<th width="50px">Index</th>
 				<th>UserName</th>
 				<th>Name</th>
 				<th>Password</th>
@@ -79,7 +79,6 @@
 		function saveUser() {
 
 			$.ajax({
-
 				url: "/api/user",
 				type: "post",
 				data: $("#the-form").serialize(),
@@ -104,12 +103,10 @@
 		}
 
 		function deleteUser(member_id) {
-
 			$.ajax({
 				url: "/api/user/" + member_id,
 				type: 'DELETE',
 				success: function (res) {
-
 					window.location.reload();
 					return false;
 				},
