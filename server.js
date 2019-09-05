@@ -20,9 +20,7 @@ var connection  = require('express-myconnection'),
     mysql = require('mysql');
 
 app.use(
-
 	connection(mysql, databaseConfig,'request')
-
 );
 
 app.get('/',function(req,res){
@@ -51,29 +49,20 @@ var curut = router.route('/user');
 
 //show the CRUD interface | GET
 curut.get(function(req,res,next){
-
-
     req.getConnection(function(err,conn){
-
         if (err) return next("Cannot Connect");
-
-        var query = conn.query('SELECT * FROM t_user',function(err,rows){
-
+        var query = conn.query('SELECT * FROM member_info',function(err,rows){
             if(err){
                 console.log(err);
                 return next("Mysql error, check your query");
             }
-
             res.render('user',{title:"RESTful Crud Example",data:rows});
-
          });
-
     });
-
 });
+
 //post data to DB | POST
 curut.post(function(req,res,next){
-
     //validation
     req.assert('name','Name is required').notEmpty();
     req.assert('email','A valid email is required').isEmail();
@@ -97,7 +86,7 @@ curut.post(function(req,res,next){
 
         if (err) return next("Cannot Connect");
 
-        var query = conn.query("INSERT INTO t_user set ? ",data, function(err, rows){
+        var query = conn.query("INSERT INTO member_info set ? ",data, function(err, rows){
 
            if(err){
                 console.log(err);
@@ -138,7 +127,7 @@ curut2.get(function(req,res,next){
 
         if (err) return next("Cannot Connect");
 
-        var query = conn.query("SELECT * FROM t_user WHERE user_id = ? ",[user_id],function(err,rows){
+        var query = conn.query("SELECT * FROM member_info WHERE user_id = ? ",[user_id],function(err,rows){
 
             if(err){
                 console.log(err);
@@ -183,7 +172,7 @@ curut2.put(function(req,res,next){
 
         if (err) return next("Cannot Connect");
 
-        var query = conn.query("UPDATE t_user set ? WHERE user_id = ? ",[data,user_id], function(err, rows){
+        var query = conn.query("UPDATE member_info set ? WHERE user_id = ? ",[data,user_id], function(err, rows){
 
            if(err){
                 console.log(err);
@@ -207,7 +196,7 @@ curut2.delete(function(req,res,next){
 
         if (err) return next("Cannot Connect");
 
-        var query = conn.query("DELETE FROM t_user  WHERE user_id = ? ",[user_id], function(err, rows){
+        var query = conn.query("DELETE FROM member_info  WHERE user_id = ? ",[user_id], function(err, rows){
 
              if(err){
                 console.log(err);
