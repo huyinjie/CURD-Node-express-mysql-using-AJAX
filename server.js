@@ -22,7 +22,6 @@ app.use(session({
 	saveUninitialized: true
 }));
 
-
 /*MySql connection*/
 var connection  = require('express-myconnection'),
     mysql = require('mysql');
@@ -35,49 +34,51 @@ app.use(
 // app.get('/',function(req,res){
 //     res.send('Welcome');
 // });
-app.get('/', function (request, response) {
-	response.sendFile(path.join(__dirname + '/views/login.html'));
+app.get('/', function (req, res) {
+	res.sendFile(path.join(__dirname + '/views/login.html'));
 });
 
-var connection = mysql.createConnection(databaseConfig);
+// var connection = mysql.createConnection(databaseConfig);
 
-app.post('/auth', function (request, response) {
-	var member_username = request.body.member_username;
-	var member_password = request.body.member_password;
+app.post('/auth', function (req, res) {
+	var member_username = req.body.member_username;
+	var member_password = req.body.member_password;
 	if (member_username && member_password) {
-		connection.query('SELECT * FROM member_info WHERE member_username = ? AND member_password = ?', [member_username, member_password], function (error, results, fields) {
-			// console.log(results)
-			// console.log(results[0])
-			// console.log(results[0].member_password)
-			// console.log(results[0].member_type)
-			if (results.length > 0) {
-				request.session.loggedin = true;
-				request.session.member_username = member_username;
-				// res.render('home', { title: "Edit member_page", data: rows });
-				console.log("Successfully Logined")
-				if (results[0].member_type == 'guest') {
-					response.redirect('api/member_page');
+		req.getConnection(function (err,conn){
+			conn.query('SELECT * FROM member_info WHERE member_username = ? AND member_password = ?', [member_username, member_password], function (error, results, fields) {
+				// console.log(results)
+				// console.log(results[0])
+				// console.log(results[0].member_password)
+				// console.log(results[0].member_type)
+				if (results.length > 0) {
+					req.session.loggedin = true;
+					req.session.member_username = member_username;
+					// res.render('home', { title: "Edit member_page", data: rows });
+					console.log("Successfully Logined")
+					if (results[0].member_type == 'guest') {
+						res.redirect('api/member_page');
+					}
+				} else {
+					res.send('Incorrect Username and/or Password!');
 				}
-			} else {
-				response.send('Incorrect Username and/or Password!');
-			}
-			response.end();
-		});
+				res.end();
+			});
+		})
 	} else {
-		response.send('Please enter Username and Password!');
-		response.end();
+		res.send('Please enter Username and Password!');
+		res.end();
 	}
 });
 
-app.get('/home', function (request, response) {
-	if (request.session.loggedin) {
-		// response.send('Welcome back, ' + request.session.member_username + '!');
-		// response.render('home', { title: "Edit member_page", data: rows });
-		response.render('home');
+app.get('/home', function (req, res) {
+	if (req.session.loggedin) {
+		// res.send('Welcome back, ' + request.session.member_username + '!');
+		// res.render('home', { title: "Edit member_page", data: rows });
+		res.render('home');
 	} else {
-		response.send('Please login to view this page!');
+		res.send('Please login to view this page!');
 	}
-	response.end();
+	res.end();
 });
 
 
