@@ -34,7 +34,7 @@ var router = express.Router();
 /*------------------------------------------------------
 *  This is router middleware,invoked everytime
 *  we hit url /api and anything after /api
-*  like /api/user , /api/user/7
+*  like /api/member_page , /api/member_page/7
 *  we can use this for doing validation,authetication
 *  for every route started with /api
 --------------------------------------------------------*/
@@ -43,7 +43,7 @@ router.use(function(req, res, next) {
     next();
 });
 
-var curut = router.route('/user');
+var curut = router.route('/member_page');
 
 
 //🎉show the CRUD interface | GET
@@ -55,7 +55,7 @@ curut.get(function(req,res,next){
                 console.log(err);
                 return next("Mysql error, check your query");
             }
-			res.render('user', { title:"Member_Info Page", data:rows});
+			res.render('member_page', { title:"Member_Info Page", data:rows});
          });
     });
 });
@@ -63,9 +63,10 @@ curut.get(function(req,res,next){
 //🎉Fast post data to DB | POST
 curut.post(function(req,res,next){
     //validation
-    req.assert('name','UserName is required').notEmpty();
-    // req.assert('email','A valid email is required').isEmail();
-    req.assert('password','Enter a password 6 - 20').len(6,20);
+	req.assert('member_username','UserName is required').notEmpty();
+	req.assert('member_name', 'Name is required').notEmpty();
+    // req.assert('member_name','A valid email is required').isEmail();
+	req.assert('member_password','Enter a password 6 - 20').len(6,20);
 
     var errors = req.validationErrors();
     if(errors){
@@ -75,18 +76,16 @@ curut.post(function(req,res,next){
 
     //get data
     var data = {
-		member_username:req.body.name,
-        // email:req.body.email,
-		member_password:req.body.password
+		member_username: req.body.member_username,
+		member_name: req.body.member_name,
+		member_password: req.body.member_password
      };
 
     //inserting into mysql
     req.getConnection(function (err, conn){
-
         if (err) return next("Cannot Connect");
 
-        var query = conn.query("INSERT INTO member_info set ? ",data, function(err, rows){
-
+        var query = conn.query("INSERT INTO member_info set ?",data, function(err, rows){
            if(err){
                 console.log(err);
                 return next("Mysql error, check your query");
@@ -98,12 +97,12 @@ curut.post(function(req,res,next){
 
 
 //now for Single route (GET,DELETE,PUT)
-var curut2 = router.route('/user/:member_id');
+var curut2 = router.route('/member_page/:member_id');
 
 /*------------------------------------------------------
 route.all is extremely useful. you can use it to do
 stuffs for specific routes. for example you need to do
-a validation everytime route /api/user/:member_id it hit.
+a validation everytime route /api/member_page/:member_id it hit.
 
 remove curut2.all() if you dont want it
 ------------------------------------------------------*/
@@ -129,11 +128,11 @@ curut2.get(function(req,res,next){
                 return next("Mysql error, check your query");
             }
 
-            //if user not found
+            //if member_page not found
             if(rows.length < 1)
                 return res.send("User Not found");
 
-            res.render('edit',{title:"Edit user",data:rows});
+            res.render('member_edit',{title:"Edit member_page",data:rows});
         });
 
     });
@@ -145,7 +144,7 @@ curut2.put(function(req,res,next){
     var member_id = req.params.member_id;
 
     //validation
-    req.assert('name','Name is required').notEmpty();
+	req.assert('member_name','Name is required').notEmpty();
     // req.assert('email','A valid email is required').isEmail();
     req.assert('password','Enter a password 6 - 20').len(6,20);
 
@@ -159,7 +158,7 @@ curut2.put(function(req,res,next){
     var data = {
 		member_username:req.body.name,
         // email:req.body.email,
-		member_password:req.body.password
+		member_password: req.body.member_password
      };
 
     //inserting into mysql

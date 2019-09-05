@@ -15,7 +15,7 @@
         <td class="label">Email</td><td>: <input type="text" name="email" value="<%=data[0].email%>"></td>
      </tr>
       <tr>
-        <td class="label">Password</td><td>: <input type="password" name="password" value="<%=data[0].member_password%>"></td>
+        <td class="label">Password</td><td>: <input type="password" name="member_password" value="<%=data[0].member_password%>"></td>
      </tr>
      <tr>
         <td class="label"></td>
@@ -31,12 +31,12 @@
            
            $.ajax({
             
-            url:"/api/user/"+<%=data[0].member_id%>,
+            url:"/api/member_page/"+<%=data[0].member_id%>,
             type:"put",
             data:$("#the-form").serialize(),
             success:function(res){
                 
-                window.location.href = '/api/user';
+                window.location.href = '/api/member_page';
                 return false;
             },
             error:function(xhr, status, error){
