@@ -105,19 +105,21 @@ var curut = router.route('/member_page');
 
 //🎉show the CRUD interface | GET
 curut.get(function(req,res,next){
-    req.getConnection(function(err,conn){
-		if (err) return next("Cannot Connect");
-		sql = "SELECT mi.*,ci.* FROM member_info mi \
+	if(req.session.loggedin){
+		req.getConnection(function (err, conn) {
+			if (err) return next("Cannot Connect");
+			sql = "SELECT mi.*,ci.* FROM member_info mi \
 			left join club_member_link cml on mi.member_id = cml.member_id \
 			left join club_info ci on ci.club_id = cml.club_id"
-        var query = conn.query(sql, function(err,rows){
-            if(err){
-                console.log(err);
-                return next("Mysql error, check your query");
-            }
-			res.render('member_page', { title:"Member_Info Page", data:rows});
-        });
-    });
+			var query = conn.query(sql, function (err, rows) {
+				if (err) {
+					console.log(err);
+					return next("Mysql error, check your query");
+				}
+				res.render('member_page', { title: "Member_Info Page", data: rows });
+			});
+		});
+	}
 });
 
 //🎉Fast post data to DB | POST
@@ -174,30 +176,23 @@ curut2.all(function(req,res,next){
 
 //get data to update
 curut2.get(function(req,res,next){
-
-	var member_id = req.params.member_id;
-	console.log(member_id);
-
-    req.getConnection(function(err,conn){
-
-        if (err) return next("Cannot Connect");
-
-        var query = conn.query("SELECT * FROM member_info WHERE member_id = ? ",[member_id],function(err,rows){
-
-            if(err){
-                console.log(err);
-                return next("Mysql error, check your query");
-            }
-
-            //if member_page not found
-            if(rows.length < 1)
-                return res.send("User Not found");
-
-            res.render('member_edit',{title:"Edit member_page",data:rows});
-        });
-
-    });
-
+	if(req.session.loggedin){
+		var member_id = req.params.member_id;
+		console.log(member_id);
+		req.getConnection(function (err, conn) {
+			if (err) return next("Cannot Connect");
+			var query = conn.query("SELECT * FROM member_info WHERE member_id = ? ", [member_id], function (err, rows) {
+				if (err) {
+					console.log(err);
+					return next("Mysql error, check your query");
+				}
+				//if member_page not found
+				if (rows.length < 1)
+					return res.send("User Not found");
+				res.render('member_edit', { title: "Edit member_page", data: rows });
+			});
+		});
+	}
 });
 
 //update data
