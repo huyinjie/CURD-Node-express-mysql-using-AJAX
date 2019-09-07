@@ -2,8 +2,8 @@
 <html>
     <head>
         <title><%=title%></title>
-        <script type="text/javascript" src="../public/js/jquery-1.10.2.min.js"></script>
-        <link rel="stylesheet" href="../public/css/style.css">
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     </head>
 <body>
 <form method="post" action="" id="the-form">
@@ -31,11 +31,11 @@
  <script>
         function saveUser(){
            $.ajax({
-            url:"/api/member_page/"+<%=data[0].member_id%>,
+            url:"/member_page/"+<%=data[0].member_id%>,
             type:"put",
             data:$("#the-form").serialize(),
             success:function(res){
-                window.location.href = '/api/member_page';
+                window.location.href = '/member_page';
                 return false;
             },
             error:function(xhr, status, error){

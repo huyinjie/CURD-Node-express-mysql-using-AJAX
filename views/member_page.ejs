@@ -3,8 +3,8 @@
 
 <head>
 	<title><%=title%></title>
-	<script type="text/javascript" src="../public/js/jquery-1.10.2.min.js"></script>
-	<link rel="stylesheet" href="../public/css/style.css">
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 </head>
 
 <body>
@@ -30,7 +30,7 @@
 				<td><%=data[i].member_password%></td>
 				<td><%=data[i].club_name%></td>
 				<td>
-					<a class="a-inside edit" href="/api/member_page/<%=data[i].member_id%>">Edit</a>
+					<a class="a-inside edit" href="/member_page/<%=data[i].member_id%>">Edit</a>
 
 					<a class="a-inside delete" href="javascript:void(0)"
 						onClick="deleteUser(<%=data[i].member_id%>)">Delete</a>
@@ -80,7 +80,7 @@
 	<script>
 		function saveUser() {
 			$.ajax({
-				url: "/api/member_page",
+				url: "/member_page",
 				type: "post",
 				data: $("#the-form").serialize(),
 				success: function (res) {
@@ -102,7 +102,7 @@
 
 		function deleteUser(member_id) {
 			$.ajax({
-				url: "/api/member_page/" + member_id,
+				url: "/member_page/" + member_id,
 				type: 'DELETE',
 				success: function (res) {
 					window.location.reload();

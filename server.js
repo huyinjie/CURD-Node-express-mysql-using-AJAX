@@ -11,7 +11,9 @@ var express  = require('express'),
 app.set('views','./views');
 app.set('view engine','ejs');
 
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + '/public'));
+
 app.use(bodyParser.urlencoded({ extended: true })); //support x-www-form-urlencoded
 app.use(bodyParser.json());
 app.use(expressValidator());
@@ -27,7 +29,7 @@ var connection  = require('express-myconnection'),
     mysql = require('mysql');
 
 app.use(
-	connection(mysql, databaseConfig,'request')
+	connection(mysql, databaseConfig, 'request')
 );
 
 // Login Page
@@ -109,8 +111,8 @@ curut.get(function(req,res,next){
 		req.getConnection(function (err, conn) {
 			if (err) return next("Cannot Connect");
 			sql = "SELECT mi.*,ci.* FROM member_info mi \
-			left join club_member_link cml on mi.member_id = cml.member_id \
-			left join club_info ci on ci.club_id = cml.club_id"
+				left join club_member_link cml on mi.member_id = cml.member_id \
+				left join club_info ci on ci.club_id = cml.club_id"
 			var query = conn.query(sql, function (err, rows) {
 				if (err) {
 					console.log(err);
@@ -220,9 +222,7 @@ curut2.put(function(req,res,next){
 
     //inserting into mysql
     req.getConnection(function (err, conn){
-
         if (err) return next("Cannot Connect");
-
         var query = conn.query("UPDATE member_info set ? WHERE member_id = ? ",[data,member_id], function(err, rows){
            if(err){
                 console.log(err);
@@ -250,7 +250,7 @@ curut2.delete(function(req,res,next){
 });
 
 //now we need to apply our router here
-app.use('/api', router);
+app.use('/', router);
 
 //start Server
 var server = app.listen(3000,function(){
