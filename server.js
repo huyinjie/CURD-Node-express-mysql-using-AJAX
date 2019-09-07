@@ -49,14 +49,16 @@ app.post('/auth', function (req, res) {
 				// console.log(results)
 				// console.log(results[0])
 				// console.log(results[0].member_password)
-				// console.log(results[0].member_type)
+				console.log(results[0].member_type);
+				console.log(results[0].club_id);
 				if (results.length > 0) {
 					req.session.loggedin = true;
 					req.session.member_username = member_username;
 					// res.render('home', { title: "Edit member_page", data: rows });
 					console.log("Successfully Logined")
 					if (results[0].member_type == 'guest') {
-						res.redirect('api/member_page');
+						// res.redirect('api/member_page');
+						res.redirect('/home');
 					}
 				} else {
 					res.send('Incorrect Username and/or Password!');
@@ -103,8 +105,11 @@ var curut = router.route('/member_page');
 //🎉show the CRUD interface | GET
 curut.get(function(req,res,next){
     req.getConnection(function(err,conn){
-        if (err) return next("Cannot Connect");
-        var query = conn.query('SELECT * FROM member_info', function(err,rows){
+		if (err) return next("Cannot Connect");
+		sql = "SELECT * FROM member_info \
+				left join club_member_link on member_info.member_id = club_member_link.member_id \
+				left join club_info on club_info.club_id = club_member_link.club_id"
+        var query = conn.query(sql, function(err,rows){
             if(err){
                 console.log(err);
                 return next("Mysql error, check your query");
