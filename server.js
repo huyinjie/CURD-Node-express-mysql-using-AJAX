@@ -56,6 +56,10 @@ app.post('/auth', function (req, res) {
 					req.session.member_username = member_username;
 					// res.render('home', { title: "Edit member_page", data: rows });
 					console.log("Successfully Logined")
+					if (results[0].member_type == 'admin') {
+						// res.redirect('api/member_page');
+						res.redirect('/home');
+					}
 					if (results[0].member_type == 'guest') {
 						// res.redirect('api/member_page');
 						res.redirect('/home');
@@ -106,9 +110,9 @@ var curut = router.route('/member_page');
 curut.get(function(req,res,next){
     req.getConnection(function(err,conn){
 		if (err) return next("Cannot Connect");
-		sql = "SELECT * FROM member_info \
-				left join club_member_link on member_info.member_id = club_member_link.member_id \
-				left join club_info on club_info.club_id = club_member_link.club_id"
+		sql = "SELECT mi.*,ci.* FROM member_info mi \
+			left join club_member_link cml on mi.member_id = cml.member_id \
+			left join club_info ci on ci.club_id = cml.club_id"
         var query = conn.query(sql, function(err,rows){
             if(err){
                 console.log(err);
@@ -174,7 +178,8 @@ curut2.all(function(req,res,next){
 //get data to update
 curut2.get(function(req,res,next){
 
-    var member_id = req.params.member_id;
+	var member_id = req.params.member_id;
+	console.log(member_id);
 
     req.getConnection(function(err,conn){
 
