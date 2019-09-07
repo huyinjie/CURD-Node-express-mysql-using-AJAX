@@ -1,16 +1,16 @@
 -- Populate club_info
 INSERT INTO club_management.club_info(club_id, club_name)
-VALUES (null, '发士大夫-社团');
+VALUES (null, '火箭');
 -- Populate member_info
 INSERT INTO club_management.member_info(member_id, member_name, member_username, member_password)
-VALUES (null, '张三','test1','123456');
+VALUES (null, '张三','user1','123456');
 INSERT INTO club_management.member_info(member_id, member_name, member_username, member_password)
-VALUES (null, '王二','test2','1234567');
+VALUES (null, '王二','user2','1234567');
 INSERT INTO club_management.member_info(member_id, member_name, member_username, member_password, member_type)
-VALUES (null, 'Admin','admin','123456','admin');
+VALUES (null, 'Admin-HJ','admin-hj','123456','admin');
 -- Populate club_member_link
 INSERT INTO club_management.club_member_link(club_member_link_id, club_id, member_id)
-VALUES (null, 1, 2);
+VALUES (null, 1, 3);
 -- Populate activity_info
 INSERT INTO club_management.activity_info(activity_id, club_id, activity_name)
 VALUES (null, 1, '既无奈无奈-活动');

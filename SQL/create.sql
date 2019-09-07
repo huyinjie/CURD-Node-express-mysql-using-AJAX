@@ -11,7 +11,7 @@ CREATE TABLE member_info
 (
 	member_id INT PRIMARY KEY AUTO_INCREMENT,
 	member_name VARCHAR(10),
-	member_username VARCHAR(10),
+	member_username VARCHAR(10) UNIQUE,
 	member_password VARCHAR(20),
 	member_type VARCHAR(20) DEFAULT 'guest'
 );
