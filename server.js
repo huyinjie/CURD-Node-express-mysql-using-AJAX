@@ -46,11 +46,8 @@ app.post('/auth', function (req, res) {
 	if (member_username && member_password) {
 		req.getConnection(function (err,conn){
 			conn.query('SELECT * FROM member_info WHERE member_username = ? AND member_password = ?', [member_username, member_password], function (error, results, fields) {
-				// console.log(results)
-				// console.log(results[0])
-				// console.log(results[0].member_password)
-				console.log(results[0].member_type);
-				console.log(results[0].club_id);
+				// console.log(results[0].member_type);
+				// console.log(results[0].club_id);
 				if (results.length > 0) {
 					req.session.loggedin = true;
 					req.session.member_username = member_username;
