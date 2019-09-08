@@ -34,7 +34,6 @@ CREATE TABLE activity_info
 	activity_detail VARCHAR(100),
 	activity_time DATETIME,
 	FOREIGN KEY(club_id) REFERENCES club_info(club_id)
-
 );
 
 CREATE TABLE activity_member_link
