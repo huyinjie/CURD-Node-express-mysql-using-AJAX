@@ -86,6 +86,10 @@ app.get('/home', function (req, res) {
 	res.end();
 });
 
+app.get('/blank', function (req, res) {
+	res.render('blank');
+	res.end();
+});
 
 //RESTful route
 var router = express.Router();
