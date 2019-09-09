@@ -2,122 +2,240 @@
 <html>
 
 <head>
-	<title><%=title%></title>
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>社团管理系统</title>
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="css/all.min.css">
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	<!-- overlayScrollbars -->
+	<link rel="stylesheet" href="css/adminlte.min.css">
+	<!-- Google Font: Source Sans Pro -->
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
-<body>
-	<div class="data-table">
-		<table border="1" cellpadding="7" cellspacing="7">
-			<tr>
-				<th width="50px">Index</th>
-				<th>UserName</th>
-				<th>Name</th>
-				<th>Password</th>
-				<th>Club</th>
-				<th>Action</th>
-			</tr>
+<body class="hold-transition sidebar-mini">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+			<!-- Left navbar links -->
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+				</li>
+			</ul>
 
-			<% if(data.length){
-         		for(var i = 0;i < data.length;i++) { 
-			%>
+			<!-- SEARCH FORM -->
+			<form class="form-inline ml-3">
+				<div class="input-group input-group-sm"></div>
+			</form>
 
-			<tr>
-				<td><%=(i+1)%></td>
-				<td><%=data[i].member_username%></td>
-				<td><%=data[i].member_name%></td>
-				<td><%=data[i].member_password%></td>
-				<td><%=data[i].club_name%></td>
-				<td>
-					<a class="a-inside edit" href="/member_page/<%=data[i].member_id%>">Edit</a>
+			<!-- Right navbar links -->
+			<ul class="navbar-nav ml-auto"></ul>
+		</nav>
+		<!-- /.navbar -->
 
-					<a class="a-inside delete" href="javascript:void(0)"
-						onClick="deleteUser(<%=data[i].member_id%>)">Delete</a>
+		<!-- Main Sidebar Container -->
+		<aside class="main-sidebar sidebar-dark-primary elevation-4">
+			<!-- Brand Logo -->
+			<a href="#" class="brand-link">
+				<span class="brand-text font-weight-light">Dashboard</span>
+			</a>
 
-				</td>
-			</tr>
-			<% }
-    
-     }else{ %>
-			<tr>
-				<td colspan="5">No Data</td>
-			</tr>
-			<% } %>
+			<!-- Sidebar -->
+			<div class="sidebar">
+				<!-- Sidebar Menu -->
+				<nav class="mt-2">
+					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+						data-accordion="false">
+						<!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+						<li class="nav-item has-treeview">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-tachometer-alt"></i>
+								<p>
+									社团管理
+									<i class="right fas fa-angle-left"></i>
+								</p>
+							</a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item">
+									<a href="../../index.html" class="nav-link">
+										<i class="far fa-circle nav-icon"></i>
+										<p>社团信息</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="../../index2.html" class="nav-link">
+										<i class="far fa-circle nav-icon"></i>
+										<p>社员管理</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="../../index3.html" class="nav-link">
+										<i class="far fa-circle nav-icon"></i>
+										<p>活动管理</p>
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+				<!-- /.sidebar-menu -->
+			</div>
+			<!-- /.sidebar -->
+		</aside>
 
-		</table>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- /.card-header -->
+			<div class="card-body">
+					<table border="1" cellpadding="7" cellspacing="7" class="table table-bordered table-hover">
+						<thead>
+						<tr>
+							<th width="50px">Index</th>
+							<th>UserName</th>
+							<th>Name</th>
+							<th>Password</th>
+							<th>Club</th>
+							<th>Action</th>
+						</tr>
+						</thead>
+
+						<% if(data.length){
+							for(var i = 0;i < data.length;i++) { 
+						%>
+
+						<tr>
+							<td><%=(i+1)%></td>
+							<td><%=data[i].member_username%></td>
+							<td><%=data[i].member_name%></td>
+							<td><%=data[i].member_password%></td>
+							<td><%=data[i].club_name%></td>
+							<td>
+								<a class="a-inside edit" href="/member_page/<%=data[i].member_id%>">Edit</a>
+				
+								<a class="a-inside delete" href="javascript:void(0)"
+									onClick="deleteUser(<%=data[i].member_id%>)">Delete</a>
+				
+							</td>
+						</tr>
+						<% }
+				    
+				     }else{ %>
+						<tr>
+							<td colspan="5">No Data</td>
+						</tr>
+						<% } %>
+				
+					</table>
+				</div>
+				
+				<div class="card">
+					<div class="card-body">
+						<form method="post" action="" id="the-form">
+							<p>Insert New Member</p>
+							<table cellpadding="11">
+								<tr>
+									<td class="label">UserName</td>
+									<td>: <input type="text" name="member_username"></td>
+								</tr>
+								<tr>
+									<td class="label">Name</td>
+									<td>: <input type="text" name="member_name"></td>
+								</tr>
+								<tr>
+									<td class="label">Password</td>
+									<td>: <input type="password" name="member_password"></td>
+								</tr>
+								<tr>
+									<td class="label"></td>
+									<td>
+										&nbsp; <input type="button" value="Save" onClick="saveUser()">
+									</td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</div>
+				<div class="page-data">
+					<ul class="err-area"></ul>
+				</div>
+		</div>
+		<!-- /.content-wrapper -->
+
+		<footer class="main-footer">
+			<div class="float-right d-none d-sm-block">
+				<b>Version</b> 3.0.0-rc.1
+			</div>
+			<strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+			reserved.
+		</footer>
+
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<!-- /.control-sidebar -->
 	</div>
-	<div class="page-data">
+	<!-- ./wrapper -->
 
-		<form method="post" action="" id="the-form">
-			<p>Insert New Member</p>
-			<table cellpadding="11">
-				<tr>
-					<td class="label">UserName</td>
-					<td>: <input type="text" name="member_username"></td>
-				</tr>
-				<tr>
-					<td class="label">Name</td>
-					<td>: <input type="text" name="member_name"></td>
-				</tr>
-				<tr>
-					<td class="label">Password</td>
-					<td>: <input type="password" name="member_password"></td>
-				</tr>
-				<tr>
-					<td class="label"></td>
-					<td>
-						&nbsp; <input type="button" value="Save" onClick="saveUser()">
-					</td>
-				</tr>
-			</table>
-		</form>
-	</div>
-	<div class="page-data">
-		<ul class="err-area"></ul>
-	</div>
-
+	<!-- Custom JS -->
 	<script>
-		function saveUser() {
-			$.ajax({
-				url: "/member_page",
-				type: "post",
-				data: $("#the-form").serialize(),
-				success: function (res) {
-					window.location.reload();
-					return false;
-				},
-				error: function (xhr, status, error) {
-					console.log(xhr.responseText);
-					var err = '';
-					$.each(JSON.parse(xhr.responseText), function (i, item) {
-						err += '<li>' + item.msg + '</li>';
-					});
-					$(".err-area").html(err);
-					return false;
-				}
+			function saveUser() {
+				$.ajax({
+					url: "/member_page",
+					type: "post",
+					data: $("#the-form").serialize(),
+					success: function (res) {
+						window.location.reload();
+						return false;
+					},
+					error: function (xhr, status, error) {
+						console.log(xhr.responseText);
+						var err = '';
+						$.each(JSON.parse(xhr.responseText), function (i, item) {
+							err += '<li>' + item.msg + '</li>';
+						});
+						$(".err-area").html(err);
+						return false;
+					}
 
-			});
-		}
+				});
+			}
 
-		function deleteUser(member_id) {
-			$.ajax({
-				url: "/member_page/" + member_id,
-				type: 'DELETE',
-				success: function (res) {
-					window.location.reload();
-					return false;
-				},
-				error: function (xhr, status, error) {
+			function deleteUser(member_id) {
+				$.ajax({
+					url: "/member_page/" + member_id,
+					type: 'DELETE',
+					success: function (res) {
+						window.location.reload();
+						return false;
+					},
+					error: function (xhr, status, error) {
 
-					console.log(xhr.responseText);
-					alert("Error deleting");
-					return false;
-				}
-			});
-		}
+						console.log(xhr.responseText);
+						alert("Error deleting");
+						return false;
+					}
+				});
+			}
 
 	</script>
+
+	<!-- jQuery -->
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<!-- Bootstrap 4 -->
+	<script src="js/bootstrap.bundle.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="js/adminlte.min.js"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script src="js/demo.js"></script>
 </body>
 
 </html>
