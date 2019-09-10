@@ -7,7 +7,7 @@ var router = require('express').Router();
 
 // var curut = router.route('/member_page');
 
-//🎉show the CRUD interface | GET
+// 🎉 show the CRUD interface | GET
 router.get('/member_page', function (req, res, next) {
 	if (req.session.loggedin) {
 		req.getConnection(function (err, conn) {
@@ -26,12 +26,12 @@ router.get('/member_page', function (req, res, next) {
 	}
 });
 
-//🎉Fast post data to DB | POST
+// 🎉 Post data to DB
 router.post('/member_page', function (req, res, next) {
-	//validation
+	// Validation
 	req.assert('member_username', 'UserName is required').notEmpty();
 	req.assert('member_name', 'Name is required').notEmpty();
-	// req.assert('member_name','A valid email is required').isEmail();
+	// isEmail();
 	req.assert('member_password', 'Enter a password 6 - 20').len(6, 20);
 
 	var errors = req.validationErrors();
