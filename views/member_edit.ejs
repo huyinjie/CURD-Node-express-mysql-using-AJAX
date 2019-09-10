@@ -106,19 +106,22 @@
 								<div class="form-group">
 									<label>UserName</label>
 									<input type="text" class="form-control" id="exampleInputEmail1"
-										name="member_username">
+										name="member_username" value="<%=data[0].member_username%>">
 								</div>
 								<div class="form-group">
 									<label>Name</label>
-									<input type="text" class="form-control" name="member_name">
+									<input type="text" class="form-control" 
+										name="member_name" value="<%=data[0].member_name%>">
 								</div>
 								<div class="form-group">
 									<label>Password</label>
-									<input type="password" class="form-control" name="member_password">
+									<input type="password" class="form-control" 
+									name="member_password" value="<%=data[0].member_password%>">
 								</div>
 								<div class="form-group">
 									<label>Club Name</label>
-									<input type="password" class="form-control" name="club_name">
+									<input type="text" class="form-control" 
+										name="club_name" value="<%=data[0].club_name%>">
 								</div>
 							</div>
 							<div class="card-footer">
