@@ -119,7 +119,7 @@
 							<a class="a-inside edit" href="/member_page/<%=data[i].member_id%>">Edit</a>
 			
 							<a class="a-inside delete" href="javascript:void(0)"
-								onClick="deleteUser(<%=data[i].member_id%>)">Delete</a>
+								onClick="deleteUser(<%=data[i].club_member_link_id%>)">Delete</a>
 			
 						</td>
 					</tr>
@@ -138,26 +138,24 @@
 				<div class="card-body">
 					<div class="card card-primary">
 						<div class="card-header">
-							<h3 class="card-title">Register New Member</h3>
+							<h3 class="card-title">Add New Member To Club</h3>
 						</div>
 						<!-- /.card-header -->
 						<!-- form start -->
 						<form method="post" action="" id="the-form">
 							<div class="card-body">
 								<div class="form-group">
-									<label for="exampleInputEmail1">UserName</label>
-									<input type="text" class="form-control" id="exampleInputEmail1" 
-										name="member_username">
+									<label>UserName</label>
+									<input type="text" class="form-control" name="member_username">
 								</div>
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<label for="exampleInputPassword1">Name</label>
-									<input type="text" class="form-control" id="exampleInputEmail1" 
+									<input type="text" class="form-control" 
 										name="member_name">
-								</div>
+								</div> -->
 								<div class="form-group">
-									<label for="exampleInputPassword1">Password</label>
-									<input type="password" class="form-control" id="exampleInputPassword1" 
-										name="member_password">
+									<label>Club Name</label>
+									<input type="text" class="form-control" name="club_name">
 								</div>
 							</div>
 							<div class="card-footer">
@@ -167,35 +165,8 @@
 								<!-- <input type="button" value="Save2" onClick="saveUser()"> -->
 							</div>
 						</form>
+					</div>
 				</div>
-				</div>
-
-				<!-- 666 -->
-				<!-- <div class="card-body">
-					<form method="post" action="" id="the-form">
-						<p>Insert New Member2</p>
-						<table cellpadding="11">
-							<tr>
-								<td class="label">UserName</td>
-								<td>: <input type="text" name="member_username"></td>
-							</tr>
-							<tr>
-								<td class="label">Name</td>
-								<td>: <input type="text" name="member_name"></td>
-							</tr>
-							<tr>
-								<td class="label">Password</td>
-								<td>: <input type="password" name="member_password"></td>
-							</tr>
-							<tr>
-								<td class="label"></td>
-								<td>
-									&nbsp; <input type="button" value="Save" onClick="saveUser()">
-								</td>
-							</tr>
-						</table>
-					</form>
-				</div> -->
 			</div>
 			<div class="page-data">
 				<ul class="err-area"></ul>
@@ -241,9 +212,9 @@
 				}
 			});
 		}
-		function deleteUser(member_id) {
+		function deleteUser(club_member_link_id) {
 			$.ajax({
-				url: "/member_page/" + member_id,
+				url: "/member_page/" + club_member_link_id,
 				type: 'DELETE',
 				success: function (res) {
 					window.location.reload();

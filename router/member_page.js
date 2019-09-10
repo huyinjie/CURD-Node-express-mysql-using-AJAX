@@ -1,4 +1,6 @@
 var router = require('express').Router();
+var db_simple = require('../db-tools/db_simple')
+var db = require('../db-tools/db')
 
 // router.use(function (req, res, next) {
 // 	console.log(req.method, req.url);
@@ -12,7 +14,7 @@ router.get('/member_page', function (req, res, next) {
 	if (req.session.loggedin) {
 		req.getConnection(function (err, conn) {
 			if (err) return next("Cannot Connect");
-			sql = "SELECT mi.*,ci.* FROM member_info mi \
+			sql = "SELECT mi.*,ci.*,cml.club_member_link_id FROM member_info mi \
 				left join club_member_link cml on mi.member_id = cml.member_id \
 				left join club_info ci on ci.club_id = cml.club_id"
 			var query = conn.query(sql, function (err, rows) {
@@ -30,9 +32,9 @@ router.get('/member_page', function (req, res, next) {
 router.post('/member_page', function (req, res, next) {
 	// Validation
 	req.assert('member_username', 'UserName is required').notEmpty();
-	req.assert('member_name', 'Name is required').notEmpty();
+	req.assert('club_name', 'Club Name is required').notEmpty();
 	// isEmail();
-	req.assert('member_password', 'Enter a password 6 - 20').len(6, 20);
+	// req.assert('member_password', 'Enter a password 6 - 20').len(6, 20);
 
 	var errors = req.validationErrors();
 	if (errors) {
@@ -43,21 +45,16 @@ router.post('/member_page', function (req, res, next) {
 	//get data
 	var data = {
 		member_username: req.body.member_username,
-		member_name: req.body.member_name,
-		member_password: req.body.member_password
+		club_name: req.body.club_name
 	};
-
+	
 	//inserting into mysql
 	req.getConnection(function (err, conn) {
 		if (err) return next("Cannot Connect");
-
-		var query = conn.query("INSERT INTO member_info set ?", data, function (err, rows) {
-			if (err) {
-				console.log(err);
-				return next("Mysql error, check your query");
-			}
-			res.sendStatus(200);
-		});
+		// console.log(data);
+		db.dbAddMemberClub(data, function (result, fields) {
+			console.log(result);
+		})
 	});
 });
 

@@ -24,6 +24,7 @@ remove curut2.all() if you dont want it
 //get data to update
 router.get('/member_page/:member_id', function (req, res, next) {
 	if (req.session.loggedin) {
+		// console.log(req.params);
 		var member_id = req.params.member_id;
 		console.log(member_id);
 		req.getConnection(function (err, conn) {
@@ -49,6 +50,7 @@ router.get('/member_page/:member_id', function (req, res, next) {
 
 //update data
 router.put('/member_page/:member_id', function (req, res, next) {
+	// console.log(req.params);
 	var member_id = req.params.member_id;
 
 	//validation
@@ -84,11 +86,12 @@ router.put('/member_page/:member_id', function (req, res, next) {
 });
 
 //delete data
-router.delete('/member_page/:member_id', function (req, res, next) {
-	var member_id = req.params.member_id;
+router.delete('/member_page/:club_member_link_id', function (req, res, next) {
+	console.log(req.params)
+	var club_member_link_id = req.params.club_member_link_id;
 	req.getConnection(function (err, conn) {
 		if (err) return next("Cannot Connect");
-		var query = conn.query("DELETE FROM member_info WHERE member_id = ? ", [member_id], function (err, result) {
+		var query = conn.query("DELETE FROM club_member_link WHERE club_member_link_id = ? ", [club_member_link_id], function (err, result) {
 			if (err) {
 				console.log(err);
 				return next("Mysql error, check your query");
