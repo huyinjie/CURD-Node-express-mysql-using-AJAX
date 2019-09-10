@@ -28,15 +28,20 @@ router.get('/member_page/:member_id', function (req, res, next) {
 		console.log(member_id);
 		req.getConnection(function (err, conn) {
 			if (err) return next("Cannot Connect");
-			var query = conn.query("SELECT * FROM member_info WHERE member_id = ? ", [member_id], function (err, rows) {
+			// sql = "SELECT * FROM member_info WHERE member_id = ? ";
+			sql = "SELECT mi.*,ci.* FROM member_info mi \
+				left join club_member_link cml on mi.member_id = cml.member_id \
+				left join club_info ci on ci.club_id = cml.club_id \
+				WHERE mi.member_id = ?"
+			var query = conn.query(sql, [member_id], function (err, result) {
 				if (err) {
 					console.log(err);
 					return next("Mysql error, check your query");
 				}
 				//if member_page not found
-				if (rows.length < 1)
+				if (result.length < 1)
 					return res.send("User Not found");
-				res.render('member_edit', { title: "Edit member_page", data: rows });
+				res.render('member_edit', { title: "Edit member_page", data: result });
 			});
 		});
 	}
@@ -68,7 +73,7 @@ router.put('/member_page/:member_id', function (req, res, next) {
 	//inserting into mysql
 	req.getConnection(function (err, conn) {
 		if (err) return next("Cannot Connect");
-		var query = conn.query("UPDATE member_info set ? WHERE member_id = ? ", [data, member_id], function (err, rows) {
+		var query = conn.query("UPDATE member_info set ? WHERE member_id = ? ", [data, member_id], function (err, result) {
 			if (err) {
 				console.log(err);
 				return next("Mysql error, check your query");
@@ -83,7 +88,7 @@ router.delete('/member_page/:member_id', function (req, res, next) {
 	var member_id = req.params.member_id;
 	req.getConnection(function (err, conn) {
 		if (err) return next("Cannot Connect");
-		var query = conn.query("DELETE FROM member_info WHERE member_id = ? ", [member_id], function (err, rows) {
+		var query = conn.query("DELETE FROM member_info WHERE member_id = ? ", [member_id], function (err, result) {
 			if (err) {
 				console.log(err);
 				return next("Mysql error, check your query");
