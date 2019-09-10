@@ -71,7 +71,7 @@
 									</a>
 								</li>
 								<li class="nav-item">
-									<a href="member_page" class="nav-link">
+									<a href="../../index2.html" class="nav-link">
 										<i class="far fa-circle nav-icon"></i>
 										<p>社员管理</p>
 									</a>
@@ -93,52 +93,11 @@
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
-			<!-- /.card-header -->
-			<div class="card-body">
-				<table border="1" cellpadding="7" cellspacing="7" class="table table-bordered table-hover">
-					<thead>
-					<tr>
-						<th width="50px">Index</th>
-						<th>UserName</th>
-						<th>Name</th>
-						<th>Password</th>
-						<th>Club</th>
-						<th>Action</th>
-					</tr>
-					</thead>
-					<% if(data.length){
-						for(var i = 0;i < data.length;i++) { 
-					%>
-					<tr>
-						<td><%=(i+1)%></td>
-						<td><%=data[i].member_username%></td>
-						<td><%=data[i].member_name%></td>
-						<td><%=data[i].member_password%></td>
-						<td><%=data[i].club_name%></td>
-						<td>
-							<a class="a-inside edit" href="/login_page/<%=data[i].member_id%>">Edit</a>
-			
-							<a class="a-inside delete" href="javascript:void(0)"
-								onClick="deleteUser(<%=data[i].member_id%>)">Delete</a>
-			
-						</td>
-					</tr>
-					<% }
-				
-				 }else{ %>
-					<tr>
-						<td colspan="5">No Data</td>
-					</tr>
-					<% } %>
-			
-				</table>
-			</div>
-				
 			<div class="card">
 				<div class="card-body">
 					<div class="card card-primary">
 						<div class="card-header">
-							<h3 class="card-title">Register New User</h3>
+							<h3 class="card-title">Edit Member</h3>
 						</div>
 						<!-- /.card-header -->
 						<!-- form start -->
@@ -146,56 +105,35 @@
 							<div class="card-body">
 								<div class="form-group">
 									<label>UserName</label>
-									<input type="text" class="form-control" id="exampleInputEmail1" 
-										name="member_username">
+									<input type="text" class="form-control" id="exampleInputEmail1"
+										name="member_username" value="<%=data[0].member_username%>">
 								</div>
 								<div class="form-group">
-									<label for="exampleInputPassword1">Name</label>
-									<input type="text" class="form-control" id="exampleInputEmail1" 
-										name="member_name">
+									<label>Name</label>
+									<input type="text" class="form-control" 
+										name="member_name" value="<%=data[0].member_name%>">
 								</div>
 								<div class="form-group">
-									<label for="exampleInputPassword1">Password</label>
-									<input type="password" class="form-control" id="exampleInputPassword1" 
-										name="member_password">
+									<label>Password</label>
+									<input type="password" class="form-control" 
+									name="member_password" value="<%=data[0].member_password%>">
 								</div>
+								<!-- <div class="form-group">
+									<label>Club Name</label>
+									<input type="text" class="form-control" 
+										name="club_name" value="<%=data[0].club_name%>">
+								</div> -->
 							</div>
 							<div class="card-footer">
 								<!-- <button type="submit" class="btn btn-primary">Submit</button> -->
-								<button type="button" class="btn btn-primary" onClick="saveUser()">Save</button>
+								<!-- <button type="button" class="btn btn-primary" onClick="saveUser()">Save</button> -->
+								<input type="button" class="btn btn-primary" value="Update Member Info" onClick="saveUser()">
 								<!-- <input type="button" value="Save" onClick="saveUser()"> -->
 								<!-- <input type="button" value="Save2" onClick="saveUser()"> -->
 							</div>
 						</form>
+					</div>
 				</div>
-				</div>
-
-				<!-- 666 -->
-				<!-- <div class="card-body">
-					<form method="post" action="" id="the-form">
-						<p>Insert New Member2</p>
-						<table cellpadding="11">
-							<tr>
-								<td class="label">UserName</td>
-								<td>: <input type="text" name="member_username"></td>
-							</tr>
-							<tr>
-								<td class="label">Name</td>
-								<td>: <input type="text" name="member_name"></td>
-							</tr>
-							<tr>
-								<td class="label">Password</td>
-								<td>: <input type="password" name="member_password"></td>
-							</tr>
-							<tr>
-								<td class="label"></td>
-								<td>
-									&nbsp; <input type="button" value="Save" onClick="saveUser()">
-								</td>
-							</tr>
-						</table>
-					</form>
-				</div> -->
 			</div>
 			<div class="page-data">
 				<ul class="err-area"></ul>
@@ -223,37 +161,24 @@
 	<script>
 		function saveUser() {
 			$.ajax({
-				url: "/login_page",
-				type: "post",
+				url: "/login_page/" +<%=data[0].member_id %>,
+				type: "put",
 				data: $("#the-form").serialize(),
 				success: function (res) {
-					window.location.reload();
+					window.location.href = '/login_page';
 					return false;
 				},
 				error: function (xhr, status, error) {
 					console.log(xhr.responseText);
 					var err = '';
 					$.each(JSON.parse(xhr.responseText), function (i, item) {
+
 						err += '<li>' + item.msg + '</li>';
 					});
 					$(".err-area").html(err);
 					return false;
 				}
-			});
-		}
-		function deleteUser(member_id) {
-			$.ajax({
-				url: "/login_page/" + member_id,
-				type: 'DELETE',
-				success: function (res) {
-					window.location.reload();
-					return false;
-				},
-				error: function (xhr, status, error) {
-					console.log(xhr.responseText);
-					alert("Error deleting");
-					return false;
-				}
+
 			});
 		}
 

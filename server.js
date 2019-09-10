@@ -99,6 +99,14 @@ app.use('/', member_page);
 const member_edit = require('./router/member_edit');
 app.use('/', member_edit);
 
+// 🎉 login_page
+const login_page = require('./router/login_page');
+app.use('/', login_page);
+
+// 🎉 login_page
+const login_edit = require('./router/login_edit');
+app.use('/', login_edit);
+
 // 🎉 test
 const test = require('./router/test');
 app.use('/', test);
