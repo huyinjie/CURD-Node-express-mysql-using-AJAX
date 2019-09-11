@@ -88,8 +88,11 @@ module.exports = {
 				console.log('MySQL Connection Failed');
 				throw err;
 			}
-			sql = 'SELECT * FROM club_member_link WHERE club_id = ? AND member_id = ?'
-			connection.query(sql, param, function (err, results, fields) {
+			// sql1 一人可加多个社团
+			sql1 = 'SELECT * FROM club_member_link WHERE club_id = ? AND member_id = ?'
+			// sql2 一人只可加一个社团
+			sql2 = 'SELECT * FROM club_member_link WHERE member_id = ?'
+			connection.query(sql2, param, function (err, results, fields) {
 				if (err) {
 					console.log('SQL Execute Failed');
 					throw err;
