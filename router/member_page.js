@@ -55,6 +55,7 @@ router.post('/member_page', function (req, res, next) {
 		db.dbAddMemberClub(data, function (result, fields) {
 			console.log(result);
 		})
+		res.sendStatus(200);
 	});
 });
 
