@@ -81,7 +81,7 @@ module.exports = {
 	checkMemberIdWithClub: function (data, callback) {
 		member_id = data.member_id;
 		club_id = data.club_id;
-		param = [club_id, member_id];
+		
 		var connection = mysql.createConnection(databaseConfig);
 		connection.connect(function (err) {
 			if (err) {
@@ -90,14 +90,17 @@ module.exports = {
 			}
 			// sql1 一人可加多个社团
 			sql1 = 'SELECT * FROM club_member_link WHERE club_id = ? AND member_id = ?'
+			param1 = [club_id, member_id];
 			// sql2 一人只可加一个社团
 			sql2 = 'SELECT * FROM club_member_link WHERE member_id = ?'
-			connection.query(sql2, param, function (err, results, fields) {
+			param2 = [member_id];
+			connection.query(sql2, param2, function (err, results, fields) {
 				if (err) {
 					console.log('SQL Execute Failed');
 					throw err;
 				}
-				// console.log(results);
+				console.log("Club_ID joined of this member: " + results[0].club_id);
+				console.log("member_id: " + member_id);
 				// console.log(results.length!=0);
 				callback && callback(results, fields);
 				connection.end(function (err) {

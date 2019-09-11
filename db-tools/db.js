@@ -13,7 +13,7 @@ module.exports = {
 				// console.log(data);
 				db_simple.checkMemberIdWithClub(data, function (result, fields) {
 					// console.log(result.length);
-					if (result.length != 0) {
+					if (result.length > 0) {
 						console.log('Field repeated');
 					}
 					else {
