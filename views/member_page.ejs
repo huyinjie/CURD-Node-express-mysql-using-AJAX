@@ -198,7 +198,8 @@
 				type: "post",
 				data: $("#the-form").serialize(),
 				success: function (res) {
-					window.location.reload();
+					// window.location.reload();
+					location.reload();
 					return false;
 				},
 				error: function (xhr, status, error) {
