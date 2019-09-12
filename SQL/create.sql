@@ -40,8 +40,10 @@ CREATE TABLE activity_info
 CREATE TABLE activity_member_link
 (
 	activity_member_link_id INT PRIMARY KEY AUTO_INCREMENT,
-	activity_id INT,
+	club_id INT,
 	member_id INT,
-	FOREIGN KEY(activity_id) REFERENCES activity_info(activity_id),
-	FOREIGN KEY(member_id) REFERENCES member_info(member_id)
+	activity_id INT,
+	FOREIGN KEY(club_id) REFERENCES club_info(club_id),
+	FOREIGN KEY(member_id) REFERENCES member_info(member_id),
+	FOREIGN KEY(activity_id) REFERENCES activity_info(activity_id)
 );
