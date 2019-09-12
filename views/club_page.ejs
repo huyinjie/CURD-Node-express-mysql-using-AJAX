@@ -115,12 +115,9 @@
 				<table border="1" cellpadding="7" cellspacing="7" class="table table-bordered table-hover">
 					<thead>
 					<tr>
-						<th width="50px">Index</th>
-						<th>UserName</th>
-						<th>Name</th>
-						<th>Password</th>
-						<th>Club</th>
-						<th>Member Type</th>
+						<th width="50px">Club Id</th>
+						<th>Club Name</th>
+						<th>Club Info</th>
 						<th>Action</th>
 					</tr>
 					</thead>
@@ -128,17 +125,15 @@
 						for(var i = 0;i < data.length;i++) { 
 					%>
 					<tr>
-						<td><%=(i+1)%></td>
-						<td><%=data[i].member_username%></td>
-						<td><%=data[i].member_name%></td>
-						<td><%=data[i].member_password%></td>
+						<!-- <td><%=(i+1)%></td> -->
+						<td><%=data[i].club_id%></td>
 						<td><%=data[i].club_name%></td>
-						<td><%=data[i].member_type%></td>
+						<td><%=data[i].club_intro%></td>
 						<td>
-							<!-- <a class="a-inside edit" href="/member_page/<%=data[i].member_id%>">Edit</a> -->
+							<a class="a-inside edit" href="/club_page/<%=data[i].club_id%>">Edit</a>
 			
 							<a class="a-inside delete" href="javascript:void(0)"
-								onClick="deleteUser(<%=data[i].club_member_link_id%>)">Delete</a>
+								onClick="deleteUser(<%=data[i].club_id%>)">Delete</a>
 			
 						</td>
 					</tr>
@@ -157,15 +152,15 @@
 				<div class="card-body">
 					<div class="card card-primary">
 						<div class="card-header">
-							<h3 class="card-title">Add New Member To Club</h3>
+							<h3 class="card-title">Add New Club</h3>
 						</div>
 						<!-- /.card-header -->
 						<!-- form start -->
 						<form method="post" action="" id="the-form">
 							<div class="card-body">
 								<div class="form-group">
-									<label>UserName</label>
-									<input type="text" class="form-control" name="member_username">
+									<label>Club Name</label>
+									<input type="text" class="form-control" name="club_name">
 								</div>
 								<!-- <div class="form-group">
 									<label for="exampleInputPassword1">Name</label>
@@ -173,8 +168,8 @@
 										name="member_name">
 								</div> -->
 								<div class="form-group">
-									<label>Club Name</label>
-									<input type="text" class="form-control" name="club_name">
+									<label>Club Info</label>
+									<input type="text" class="form-control" name="club_intro">
 								</div>
 							</div>
 							<div class="card-footer">
@@ -213,7 +208,7 @@
 	<script>
 		function saveUser() {
 			$.ajax({
-				url: "/member_page",
+				url: "/club_page",
 				type: "post",
 				data: $("#the-form").serialize(),
 				success: function (res) {
@@ -234,7 +229,7 @@
 		}
 		function deleteUser(club_member_link_id) {
 			$.ajax({
-				url: "/member_page/" + club_member_link_id,
+				url: "/club_page/" + club_member_link_id,
 				type: 'DELETE',
 				success: function (res) {
 					window.location.reload();

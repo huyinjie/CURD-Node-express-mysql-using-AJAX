@@ -121,24 +121,14 @@
 						<form method="post" action="" id="the-form">
 							<div class="card-body">
 								<div class="form-group">
-									<label>UserName</label>
-									<input type="text" class="form-control" id="exampleInputEmail1"
-										name="member_username" value="<%=data[0].member_username%>">
-								</div>
-								<div class="form-group">
-									<label>Name</label>
-									<input type="text" class="form-control" 
-										name="member_name" value="<%=data[0].member_name%>">
-								</div>
-								<div class="form-group">
-									<label>Password</label>
-									<input type="password" class="form-control" 
-									name="member_password" value="<%=data[0].member_password%>">
-								</div>
-								<div class="form-group">
 									<label>Club Name</label>
-									<input type="text" class="form-control" 
+									<input type="text" class="form-control"
 										name="club_name" value="<%=data[0].club_name%>">
+								</div>
+								<div class="form-group">
+									<label>Club Info</label>
+									<input type="text" class="form-control" 
+										name="club_intro" value="<%=data[0].club_intro%>">
 								</div>
 							</div>
 							<div class="card-footer">
@@ -178,11 +168,11 @@
 	<script>
 		function saveUser() {
 			$.ajax({
-				url: "/member_page/" +<%=data[0].member_id %>,
+				url: "/club_page/" +<%=data[0].club_id %>,
 				type: "put",
 				data: $("#the-form").serialize(),
 				success: function (res) {
-					window.location.href = '/member_page';
+					window.location.href = '/club_page';
 					return false;
 				},
 				error: function (xhr, status, error) {

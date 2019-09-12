@@ -6,35 +6,32 @@ var router = require('express').Router();
 // });
 
 //now for Single route (GET,DELETE,PUT)
-// var curut2 = router.route('/club_page/:member_id');
+// var curut2 = router.route('/club_page/:club_id');
 
 /*------------------------------------------------------
 route.all is extremely useful. you can use it to do
 stuffs for specific routes. for example you need to do
-a validation everytime route /api/club_page/:member_id it hit.
+a validation everytime route /api/club_page/:club_id it hit.
 
 remove curut2.all() if you dont want it
 ------------------------------------------------------*/
-// curut2.all('/club_page/:member_id', function (req, res, next) {
+// curut2.all('/club_page/:club_id', function (req, res, next) {
 // 	console.log("You need to smth about curut2 Route ? Do it here");
 // 	console.log(req.params);
 // 	next();
 // });
 
 //get data to update
-router.get('/club_page/:member_id', function (req, res, next) {
+router.get('/club_page/:club_id', function (req, res, next) {
 	if (req.session.loggedin) {
 		// console.log(req.params);
-		var member_id = req.params.member_id;
-		console.log(member_id);
+		var club_id = req.params.club_id;
+		console.log(club_id);
 		req.getConnection(function (err, conn) {
 			if (err) return next("Cannot Connect");
-			// sql = "SELECT * FROM member_info WHERE member_id = ? ";
-			sql = "SELECT mi.*,ci.* FROM member_info mi \
-				left join club_member_link cml on mi.member_id = cml.member_id \
-				left join club_info ci on ci.club_id = cml.club_id \
-				WHERE mi.member_id = ?"
-			var query = conn.query(sql, [member_id], function (err, result) {
+			// sql = "SELECT * FROM member_info WHERE club_id = ? ";
+			sql = "SELECT * FROM club_info WHERE club_id = ?"
+			var query = conn.query(sql, [club_id], function (err, result) {
 				if (err) {
 					console.log(err);
 					return next("Mysql error, check your query");
@@ -42,22 +39,20 @@ router.get('/club_page/:member_id', function (req, res, next) {
 				//if club_page not found
 				if (result.length < 1)
 					return res.send("User Not found");
-				res.render('member_edit', { title: "Edit club_page", data: result });
+				res.render('club_edit', { title: "Edit club_page", data: result });
 			});
 		});
 	}
 });
 
 //update data
-router.put('/club_page/:member_id', function (req, res, next) {
+router.put('/club_page/:club_id', function (req, res, next) {
 	// console.log(req.params);
-	var member_id = req.params.member_id;
+	var club_id = req.params.club_id;
 
-	//validation
-	req.assert('member_username', 'UserName is required').notEmpty();
-	req.assert('member_name', 'Name is required').notEmpty();
-	// req.assert('member_name','A valid email is required').isEmail();
-	req.assert('member_password', 'Enter a password 6 - 20').len(6, 20);
+	// Validation
+	req.assert('club_name', 'club_name is required').notEmpty();
+	req.assert('club_intro', 'club_intro is required').notEmpty();
 
 	var errors = req.validationErrors();
 	if (errors) {
@@ -67,15 +62,14 @@ router.put('/club_page/:member_id', function (req, res, next) {
 
 	//get data
 	var data = {
-		member_username: req.body.member_username,
-		member_name: req.body.member_name,
-		member_password: req.body.member_password
+		club_name: req.body.club_name,
+		club_intro: req.body.club_intro
 	};
 
 	//inserting into mysql
 	req.getConnection(function (err, conn) {
 		if (err) return next("Cannot Connect");
-		var query = conn.query("UPDATE member_info set ? WHERE member_id = ? ", [data, member_id], function (err, result) {
+		var query = conn.query("UPDATE club_info set ? WHERE club_id = ? ", [data, club_id], function (err, result) {
 			if (err) {
 				console.log(err);
 				return next("Mysql error, check your query");
@@ -86,12 +80,12 @@ router.put('/club_page/:member_id', function (req, res, next) {
 });
 
 //delete data
-router.delete('/club_page/:club_member_link_id', function (req, res, next) {
+router.delete('/club_page/:club_id', function (req, res, next) {
 	console.log(req.params)
-	var club_member_link_id = req.params.club_member_link_id;
+	var club_id = req.params.club_id;
 	req.getConnection(function (err, conn) {
 		if (err) return next("Cannot Connect");
-		var query = conn.query("DELETE FROM club_member_link WHERE club_member_link_id = ? ", [club_member_link_id], function (err, result) {
+		var query = conn.query("DELETE FROM club_info WHERE club_id = ? ", [club_id], function (err, result) {
 			if (err) {
 				console.log(err);
 				return next("Mysql error, check your query");

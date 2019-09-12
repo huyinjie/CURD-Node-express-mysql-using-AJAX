@@ -111,6 +111,14 @@ app.use('/', login_edit);
 const member_search = require('./router/member_search');
 app.use('/', member_search);
 
+// 🎉 club_page
+const club_page = require('./router/club_page');
+app.use('/', club_page);
+
+// 🎉 club_edit
+const club_edit = require('./router/club_edit');
+app.use('/', club_edit);
+
 // 🎉 test
 const test = require('./router/test');
 app.use('/', test);
