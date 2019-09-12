@@ -99,8 +99,8 @@ module.exports = {
 					console.log('SQL Execute Failed');
 					throw err;
 				}
-				console.log("Club_ID joined of this member: " + results[0].club_id);
-				console.log("member_id: " + member_id);
+				// console.log("Club_ID joined of this member: " + results[0].club_id);
+				// console.log("member_id: " + member_id);
 				// console.log(results.length!=0);
 				callback && callback(results, fields);
 				connection.end(function (err) {
