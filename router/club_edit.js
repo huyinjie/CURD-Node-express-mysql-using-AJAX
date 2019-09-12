@@ -6,23 +6,23 @@ var router = require('express').Router();
 // });
 
 //now for Single route (GET,DELETE,PUT)
-// var curut2 = router.route('/member_page/:member_id');
+// var curut2 = router.route('/club_page/:member_id');
 
 /*------------------------------------------------------
 route.all is extremely useful. you can use it to do
 stuffs for specific routes. for example you need to do
-a validation everytime route /api/member_page/:member_id it hit.
+a validation everytime route /api/club_page/:member_id it hit.
 
 remove curut2.all() if you dont want it
 ------------------------------------------------------*/
-// curut2.all('/member_page/:member_id', function (req, res, next) {
+// curut2.all('/club_page/:member_id', function (req, res, next) {
 // 	console.log("You need to smth about curut2 Route ? Do it here");
 // 	console.log(req.params);
 // 	next();
 // });
 
 //get data to update
-router.get('/member_page/:member_id', function (req, res, next) {
+router.get('/club_page/:member_id', function (req, res, next) {
 	if (req.session.loggedin) {
 		// console.log(req.params);
 		var member_id = req.params.member_id;
@@ -39,17 +39,17 @@ router.get('/member_page/:member_id', function (req, res, next) {
 					console.log(err);
 					return next("Mysql error, check your query");
 				}
-				//if member_page not found
+				//if club_page not found
 				if (result.length < 1)
 					return res.send("User Not found");
-				res.render('member_edit', { title: "Edit member_page", data: result });
+				res.render('member_edit', { title: "Edit club_page", data: result });
 			});
 		});
 	}
 });
 
 //update data
-router.put('/member_page/:member_id', function (req, res, next) {
+router.put('/club_page/:member_id', function (req, res, next) {
 	// console.log(req.params);
 	var member_id = req.params.member_id;
 
@@ -86,7 +86,7 @@ router.put('/member_page/:member_id', function (req, res, next) {
 });
 
 //delete data
-router.delete('/member_page/:club_member_link_id', function (req, res, next) {
+router.delete('/club_page/:club_member_link_id', function (req, res, next) {
 	console.log(req.params)
 	var club_member_link_id = req.params.club_member_link_id;
 	req.getConnection(function (err, conn) {

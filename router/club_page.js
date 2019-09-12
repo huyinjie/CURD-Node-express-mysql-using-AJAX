@@ -7,10 +7,10 @@ var db = require('../db-tools/db')
 // 	next();
 // });
 
-// var curut = router.route('/member_page');
+// var curut = router.route('/club_page');
 
 // 🎉 show the CRUD interface | GET
-router.get('/member_page', function (req, res, next) {
+router.get('/club_page', function (req, res, next) {
 	if (req.session.loggedin) {
 		req.getConnection(function (err, conn) {
 			if (err) return next("Cannot Connect");
@@ -22,14 +22,14 @@ router.get('/member_page', function (req, res, next) {
 					console.log(err);
 					return next("Mysql error, check your query");
 				}
-				res.render('member_page', { title: "Member_Info Page", data: rows });
+				res.render('club_page', { title: "Member_Info Page", data: rows });
 			});
 		});
 	}
 });
 
 // 🎉 Post data to DB
-router.post('/member_page', function (req, res, next) {
+router.post('/club_page', function (req, res, next) {
 	// Validation
 	req.assert('member_username', 'UserName is required').notEmpty();
 	req.assert('club_name', 'Club Name is required').notEmpty();
