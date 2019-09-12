@@ -29,21 +29,17 @@ CREATE TABLE club_member_link
 CREATE TABLE activity_info
 (
 	activity_id INT PRIMARY KEY AUTO_INCREMENT,
-	club_id INT,
 	activity_name VARCHAR(20),
 	activity_location VARCHAR(20),
 	activity_detail VARCHAR(100),
-	activity_time DATETIME,
-	FOREIGN KEY(club_id) REFERENCES club_info(club_id)
+	activity_time DATETIME
 );
 
-CREATE TABLE activity_member_link
+CREATE TABLE activity_club_link
 (
-	activity_member_link_id INT PRIMARY KEY AUTO_INCREMENT,
+	activity_link_id INT PRIMARY KEY AUTO_INCREMENT,
+	activity_id INT UNIQUE,
 	club_id INT,
-	member_id INT,
-	activity_id INT,
-	FOREIGN KEY(club_id) REFERENCES club_info(club_id),
-	FOREIGN KEY(member_id) REFERENCES member_info(member_id),
-	FOREIGN KEY(activity_id) REFERENCES activity_info(activity_id)
+	FOREIGN KEY(activity_id) REFERENCES activity_info(activity_id),
+	FOREIGN KEY(club_id) REFERENCES club_info(club_id)
 );
