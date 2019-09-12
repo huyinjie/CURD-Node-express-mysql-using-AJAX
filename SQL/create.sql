@@ -4,7 +4,8 @@ use club_management;
 CREATE TABLE club_info
 (
 	club_id INT PRIMARY KEY AUTO_INCREMENT,
-	club_name VARCHAR(20)
+	club_name VARCHAR(20),
+	club_intro VARCHAR(50)
 );
 
 CREATE TABLE member_info
