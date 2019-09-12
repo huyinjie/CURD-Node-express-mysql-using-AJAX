@@ -107,6 +107,10 @@ app.use('/', login_page);
 const login_edit = require('./router/login_edit');
 app.use('/', login_edit);
 
+// 🎉 member_search
+const member_search = require('./router/member_search');
+app.use('/', member_search);
+
 // 🎉 test
 const test = require('./router/test');
 app.use('/', test);
