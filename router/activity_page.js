@@ -5,29 +5,30 @@ var router = require('express').Router();
 // 	next();
 // });
 
-// var curut = router.route('/login_page');
+// var curut = router.route('/activity_page');
 
 // 🎉 show the CRUD interface | GET
-router.get('/login_page', function (req, res, next) {
+router.get('/activity_page', function (req, res, next) {
 	if (req.session.loggedin) {
 		req.getConnection(function (err, conn) {
 			if (err) return next("Cannot Connect");
-			sql = "SELECT mi.*,ci.* FROM member_info mi \
-				left join club_member_link cml on mi.member_id = cml.member_id \
-				left join club_info ci on ci.club_id = cml.club_id"
+			sql = "SELECT ai.activity_id, ai.activity_name, mi.member_name, ci.club_name FROM activity_info ai \
+				left join activity_member_link aml on aml.activity_id = ai.activity_id \
+				left join member_info mi on mi.member_id = aml.member_id \
+				left join club_info ci on ci.club_id = aml.club_id"
 			var query = conn.query(sql, function (err, rows) {
 				if (err) {
 					console.log(err);
 					return next("Mysql error, check your query");
 				}
-				res.render('login_page', { title: "Member_Info Page", data: rows });
+				res.render('activity_page', { title: "Member_Info Page", data: rows });
 			});
 		});
 	}
 });
 
 // 🎉 Post data to DB
-router.post('/login_page', function (req, res, next) {
+router.post('/activity_page', function (req, res, next) {
 	// Validation
 	req.assert('member_username', 'UserName is required').notEmpty();
 	req.assert('member_name', 'Name is required').notEmpty();

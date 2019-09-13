@@ -52,6 +52,7 @@ app.post('/auth', function (req, res) {
 				// console.log(results[0].club_id);
 				if (results.length > 0) {
 					req.session.loggedin = true;
+					// req.session.user = member_username;
 					req.session.member_username = member_username;
 					// res.render('home', { title: "Edit member_page", data: rows });
 					console.log("Successfully Logined")
@@ -61,7 +62,7 @@ app.post('/auth', function (req, res) {
 					}
 					if (results[0].member_type == 'guest') {
 						// res.redirect('api/member_page');
-						res.redirect('/home');
+						res.redirect('/home_guest');
 					}
 				} else {
 					res.send('Incorrect Username and/or Password!');
@@ -77,6 +78,7 @@ app.post('/auth', function (req, res) {
 
 app.get('/home', function (req, res) {
 	if (req.session.loggedin) {
+		console.log(req.session.member_username);
 		// res.send('Welcome back, ' + request.session.member_username + '!');
 		// res.render('home', { title: "Edit member_page", data: rows });
 		res.render('home');
@@ -103,9 +105,17 @@ app.use('/', member_edit);
 const login_page = require('./router/login_page');
 app.use('/', login_page);
 
-// 🎉 login_page
+// 🎉 login_edit
 const login_edit = require('./router/login_edit');
 app.use('/', login_edit);
+
+// 🎉 activity_page
+const activity_page = require('./router/activity_page');
+app.use('/', activity_page);
+
+// 🎉 activity_edit
+const activity_edit = require('./router/activity_edit');
+app.use('/', activity_edit);
 
 // 🎉 member_search
 const member_search = require('./router/member_search');
